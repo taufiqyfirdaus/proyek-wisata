@@ -3,7 +3,7 @@
 <main role="main" class="main">
     <section class="jumbotron text-center mb-4 bg-light">
         <div class="container" style="margin-top: 80px;">
-            <img src="/wisataya/public/images/Wisataya1.svg" width="300" style="margin-bottom: 3px">
+            <img src="/images/Wisataya1.svg" width="300" style="margin-bottom: 3px">
             <p class="lead" style="color: rgb(255, 255, 255)">
                 Hasil Pencarian <strong>{{$search}}</strong>.
             </p>

@@ -1,4 +1,5 @@
 @extends('template.admin.default')
+<input type="hidden">
 @section('title')
     <h1><i class="fa fa-dashboard"></i>   Administrator</h1>
     <p>Halaman Administrator Wisataya</p>
@@ -135,6 +136,41 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-12">
+            <div class="tile">
+                <h3 class="tile-title">Data Penginapan oleh User</h3>
+                <div class="tile-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <th>Nomor</th>
+                                <th>Nama</th>
+                                <th>Penginapan</th>
+                                <th>Published</th>
+                                <th>Not Published</th>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $no=0;
+                                @endphp
+                                @foreach ($users as $user)
+                                @php
+                                    $no++;
+                                @endphp
+                                    <tr>
+                                        <td>{{$no}}</td>
+                                        <td>{{$user->name}}</td>
+                                        <td>{{$getCountPenginapan->getCountPenginapan($user->id)}}</td>
+                                        <td>{{$getCountPenginapanPublish->getCountPenginapanPublish($user->id)}}</td>
+                                        <td>{{$getCountPenginapanNotPublish->getCountPenginapanNotPublish($user->id)}}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     @elseif(auth()->user()->hasRole('contributor'))
         <div class="col-md-3">
             <div class="widget-small info coloured-icon">
@@ -159,7 +195,7 @@
                 <i class="icon fa fa-upload fa-3x"></i>
                 <div class="info">
                     <h4>Published</h4>
-                    <p><b>{{$userContentPublish}}</b></p>
+                    <p><b>{{$userContContentPublish}}</b></p>
                 </div>
             </div>
         </div>
@@ -168,7 +204,7 @@
                 <i class="icon fa fa-archive fa-3x"></i>
                 <div class="info">
                     <h4>Not Published</h4>
-                    <p><b>{{$userContentNotPublish}}</b></p>
+                    <p><b>{{$userContContentNotPublish}}</b></p>
                 </div>
             </div>
         </div>    
@@ -187,7 +223,7 @@
                 <i class="icon fa fa-upload fa-3x"></i>
                 <div class="info">
                     <h4>Published</h4>
-                    <p><b>{{$userContentPublish}}</b></p>
+                    <p><b>{{$userPenginapanPublish}}</b></p>
                 </div>
             </div>
         </div>
@@ -196,7 +232,7 @@
                 <i class="icon fa fa-archive fa-3x"></i>
                 <div class="info">
                     <h4>Not Published</h4>
-                    <p><b>{{$userContentNotPublish}}</b></p>
+                    <p><b>{{$userPenginapanNotPublish}}</b></p>
                 </div>
             </div>
         </div>    

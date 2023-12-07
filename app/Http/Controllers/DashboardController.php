@@ -7,6 +7,7 @@ use App\Models\Content;
 use App\Models\Penginapan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class DashboardController extends Controller
 {
@@ -34,6 +35,13 @@ class DashboardController extends Controller
         $getCountPenginapanPublish = new Penginapan;
         $getCountPenginapanNotPublish = new Penginapan;
 
+        $administratorRole = Role::where('name', 'administrator')->first();
+        $contributorRole = Role::where('name', 'contributor')->first();
+        $innownerRole = Role::where('name', 'innowner')->first();
+
+        $users = $administratorRole->users
+        ->merge($contributorRole->users)
+        ->merge($innownerRole->users);
         $userContent = Content::where('user_id', auth()->user()->id)->count();
         $userContentPublish = Content::where('user_id', auth()->user()->id)
         ->where('status_publish', 1)->count();
@@ -46,6 +54,13 @@ class DashboardController extends Controller
         $userBudayaNotPublish = Budaya::where('user_id', auth()->user()->id)
         ->where('status_publish', 0)->count();
 
+        $userContContentPublish = Content::where('user_id', auth()->user()->id)
+        ->where('status_publish', 1)->count()+Budaya::where('user_id', auth()->user()->id)
+        ->where('status_publish', 1)->count();
+        $userContContentNotPublish = Content::where('user_id', auth()->user()->id)
+        ->where('status_publish', 0)->count()+Budaya::where('user_id', auth()->user()->id)
+        ->where('status_publish', 0)->count();
+        
         $userPenginapan = Penginapan::where('user_id', auth()->user()->id)->count();
         $userPenginapanPublish = Penginapan::where('user_id', auth()->user()->id)
         ->where('status_publish', 1)->count();
@@ -56,6 +71,7 @@ class DashboardController extends Controller
         'getCountContentPublish', 'getCountContentNotPublish', 'userContent', 'userContentPublish', 
         'userContentNotPublish', 'getCountBudaya', 'getCountBudayaPublish', 'getCountBudayaNotPublish', 
         'userBudaya', 'userBudayaPublish', 'contentBudaya', 'getCountPenginapan', 'getCountPenginapanPublish', 'getCountPenginapanNotPublish', 
-        'userPenginapan', 'userPenginapanPublish', 'penginapan'));
+        'userPenginapan', 'userPenginapanPublish', 'userPenginapanNotPublish', 'penginapan', 'userContContentPublish', 
+        'userContContentNotPublish'));
     }
 }
